@@ -1,6 +1,6 @@
 const task = document.querySelector("#Task");
 const hours = document.querySelector("#hours");
-let c = 0;
+
 let data = [];
 
 document.getElementById("Addtask").addEventListener("click", (event) => {
@@ -12,6 +12,21 @@ document.getElementById("Addtask").addEventListener("click", (event) => {
   //   console.log(data);
   displayList();
 });
+
+function calculateHours() {
+  let savedHours = 0;
+  let allocatedHours = 0;
+  data.map((item) => {
+    allocatedHours += parseInt(item.hoursValue);
+    if (item.type == "bad") {
+      savedHours += parseInt(item.hoursValue);
+    }
+  });
+  let savedText = document.getElementById("saved");
+  savedText.innerText = "You could have saved = "+savedHours+" hours";
+  let allocatedText = document.getElementById("allocated");
+  allocatedText.innerText = "The total hours allocated = "+allocatedHours+ " hours"
+}
 
 function swap(i) {
   let idValue = data.filter((item) => item.id == i);
@@ -45,6 +60,8 @@ function generateId() {
 }
 
 function displayList() {
+  calculateHours();
+
   let entry = "";
   let entryList = document.getElementById("EntryList");
   let bad = "";
@@ -59,7 +76,6 @@ function displayList() {
 }
 
 function displayListElement(displayEntryList, entry) {
-  entry = "";
   let direction = "right";
   displayEntryList.map((item) => {
     if (item.type == "bad") {
