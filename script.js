@@ -6,26 +6,44 @@ let data = [];
 document.getElementById("Addtask").addEventListener("click", (event) => {
   event.preventDefault();
   const taskValue = task.value;
-  const hoursValue = hours.value;
-  const object = { taskValue, hoursValue, type: "entry", id: generateId() };
+  const hoursValue = +hours.value;
+  const object = { taskValue, hoursValue, type: "entry", id: generateId(), isSelected: false };
   data.push(object);
-  //   console.log(data);
   displayList();
 });
+function selected(e){
+  console.log(e.value);
+  
+  console.log(e.checked);
+  
+    
+  
+  
+
+}
 
 function calculateHours() {
-  let savedHours = 0;
-  let allocatedHours = 0;
-  data.map((item) => {
-    allocatedHours += parseInt(item.hoursValue);
-    if (item.type == "bad") {
-      savedHours += parseInt(item.hoursValue);
+
+  let savedHours =
+  data.reduce((acc, item) => {
+    if(item.type == 'bad'){
+      
+      return acc +item.hoursValue
+    }else{
+      return 0;
     }
-  });
+    },0);
+
+    let allocatedHours =
+  data.reduce((acc, item) => {
+      
+      return acc +item.hoursValue
+    
+    },0);
   let savedText = document.getElementById("saved");
   savedText.innerText = "You could have saved = "+savedHours+" hours";
   let allocatedText = document.getElementById("allocated");
-  allocatedText.innerText = "The total hours allocated = "+allocatedHours+ " hours"
+  allocatedText.innerText = "The total hours allocated = "+allocatedHours+" hours";
 }
 
 function swap(i) {
@@ -40,8 +58,7 @@ function swap(i) {
 }
 
 function deleteList(i) {
-  let idValue = data.filter((item) => item.id !== i);
-  data = idValue;
+  data = data.filter((item) => item.id !== i);
   displayList();
 }
 
@@ -52,9 +69,7 @@ function generateId() {
 
   for (let i = 0; i < 6; i++) {
     const idValue = Math.floor(Math.random() * string.length);
-
     id += string[idValue];
-    // console.log(id);
   }
   return id;
 }
@@ -62,9 +77,7 @@ function generateId() {
 function displayList() {
   calculateHours();
 
-  let entry = "";
   let entryList = document.getElementById("EntryList");
-  let bad = "";
   let badList = document.getElementById("BadList");
 
   const displayEntryList = data.filter((item) => item.type == "entry");
@@ -84,6 +97,7 @@ function displayListElement(displayEntryList, entry) {
 
     entry += `<tr>
                                 <th scope="row">${item.id}</th>
+                                <td><input type="checkbox" onchange="selected(this)" value="${item.id}"  ${item?.isSelected ? "checked" : ""}></td>
                                 <td>${item.taskValue}</td>
                                 <td>${item.hoursValue}</td>
                                 <td class="text-end">
