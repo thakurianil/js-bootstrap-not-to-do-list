@@ -72,11 +72,11 @@
             <div class="row p-1 ">
                 <div class="col-md-6 p-3 text-center">
                     <h3>
-                        <td><input type="checkbox" onchange="selectedAll(this)" ></td>
+                        <td><input type="checkbox" onchange="selectedAll(this)" value="entry" id="checkBox"></td>
                         Entry List
-                        <button type="button" class="btn btn-danger" onclick="deleteSelected()"><i class="fa-solid fa-trash"
-                                ></i></button>
-                        <button type="button" class="btn btn-success" onclick="swapSelected()"><i
+                        <button type="button" class="btn btn-danger" onclick="deleteSelected()" value="entry"><i
+                                class="fa-solid fa-trash"></i></button>
+                        <button type="button" class="btn btn-success" onclick="swapSelected(this)" value="entry"><i
                                 class="fa-solid fa-arrow-right"></i></button>
                     </h3>
 
@@ -102,7 +102,15 @@
 
                 </div>
                 <div class="col-md-6 p-3 text-center">
-                    <h3>Bad List</h3>
+                    <h3>
+                        <td><input type="checkbox" onchange="selectedAll(this)" value="bad" unchecked></td>
+                        Bad List
+                        <button type="button" class="btn btn-danger" onclick="deleteSelected()" value="bad"><i
+                                class="fa-solid fa-trash"></i></button>
+                        <button type="button" class="btn btn-success" onclick="swapSelected(this)" value="bad"><i
+                                class="fa-solid fa-arrow-left"></i></button>
+                    </h3>
+
                     <hr />
                     <table class="table table-hover">
                         <tbody id="BadList">
@@ -166,7 +174,7 @@
             const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
             toastTrigger.addEventListener('click', () => {
                 toastBootstrap.show()
-  loadAddSound.play();
+                loadAddSound.play();
 
             })
         }

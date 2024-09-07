@@ -6,7 +6,7 @@ const displayDataFromLocalStorage = () => {
   let tempData = JSON.parse(localStorage.getItem("data"));
 
   data = tempData ? tempData : [];
- displayList();
+  displayList();
 };
 
 document.getElementById("Addtask").addEventListener("click", (event) => {
@@ -30,7 +30,6 @@ document.getElementById("Addtask").addEventListener("click", (event) => {
 
   toastBootstrap.show();
   loadAddSound.play();
-
 });
 function selected(e) {
   let selectedId = e.value;
@@ -89,8 +88,7 @@ function generateId() {
 }
 
 function displayList() {
-  
-  localStorage.setItem("data",JSON.stringify(data));
+  localStorage.setItem("data", JSON.stringify(data));
 
   let entryList = document.getElementById("EntryList");
   let badList = document.getElementById("BadList");
@@ -102,7 +100,6 @@ function displayList() {
   entryList.innerHTML = displayListElement(displayEntryList, "");
   badList.innerHTML = displayListElement(displayBadList, "");
   calculateHours();
-
 }
 function deleteSelected() {
   let deleteList = data.filter((item) => item.isSelected !== true);
@@ -115,40 +112,44 @@ function deleteSelected() {
   toastBootstrap.show();
   loadDeleteSOund.play();
   displayList();
-
 }
-function swapSelected() {
+function swapSelected(e) {
+  console.log(e.value);
+
   let swapList = data.filter((item) => item.isSelected == true);
   console.log(swapList);
-  
   swapList.forEach((item) => {
-    item.type = "bad";
-    item.isSelected = false;
+    if (e.value == "bad") {
+      item.type = "entry";
+      item.isSelected = false;
+    } else {
+      item.type = "bad";
+      item.isSelected = false;
+    }
   });
 
   displayList();
 }
 
 function selectedAll(e) {
-  
-  
+  let selectedValue = e.value;
+
   let selectedChecked = e.checked;
 
-  
   console.log(selectedChecked);
 
-  let selectedAllList = data.filter((item)=>{
-    if(item.type == 'entry' && selectedChecked == true){
+  let selectedAllList = data.filter((item) => {
+    if (item.type == selectedValue && selectedChecked == true) {
       item.isSelected = true;
-    }else{
+    } else {
       item.isSelected = false;
     }
+  });
 
-  })
   displayList();
- 
+
   // console.log(selectedAllList);
-  
+
   // let taskFound = data.find(item=>item.id==selectedId);
   // taskFound.isSelected = selectedChecked;
 }
@@ -188,4 +189,3 @@ function displayListElement(displayEntryList, entry) {
 }
 
 displayDataFromLocalStorage();
-
