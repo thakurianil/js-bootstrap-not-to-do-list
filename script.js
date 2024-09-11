@@ -141,10 +141,8 @@ function selectedAll(e) {
   console.log(selectedChecked);
 
   let selectedAllList = data.filter((item) => {
-    if (item.type == selectedValue && selectedChecked == true) {
-      item.isSelected = true;
-    } else {
-      item.isSelected = false;
+    if (item.type == selectedValue) {
+      item.isSelected = selectedChecked;
     }
   });
 
